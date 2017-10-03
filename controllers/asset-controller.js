@@ -5,15 +5,15 @@ const url = require('url');
 
 class AssetController {
   static upload(req, res) {
+    const { file } = req.body;
+
     const filename = path.basename(
-      req.files[0]
-        ? req.files[0].originalname
-        : url.parse(req.body.file).pathname
+      file ? file.filename : url.parse(file).pathname
     );
 
-    const stream = req.files[0] ? req : request.get(req.body.file);
+    const stream = file.stream ? file.stream : request.get(file);
 
-    return uploadService(filename, stream)
+    return uploadService(filename, stream, file.size)
       .then(response => {
         res.json(response);
       })
