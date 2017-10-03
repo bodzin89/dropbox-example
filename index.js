@@ -8,7 +8,7 @@ const app = express();
 
 app.use(bodyParser());
 
-app.post('/upload', streamBuilder, AssetController.upload);
+app.post('/upload/:dest', streamBuilder, AssetController.upload);
 
 app.listen(3000, () => {
   console.log('Application started');

@@ -10,7 +10,8 @@ module.exports = function(req, res, next) {
     req.body.file = {
       filename,
       stream: file,
-      size: parseInt(req.headers['content-length'])
+      size: parseInt(req.headers['content-length']),
+      dest: req.params.dest
     };
 
     next();
@@ -23,7 +24,8 @@ module.exports = function(req, res, next) {
       req.body.file = {
         filename,
         stream: request.get(link),
-        size: parseInt(info.headers['content-length'])
+        size: parseInt(info.headers['content-length']),
+        dest: req.params.dest
       };
 
       next();
