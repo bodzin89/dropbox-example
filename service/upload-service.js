@@ -1,7 +1,7 @@
 const dropbox = require('dropbox-stream');
 const config = require('../config');
 
-module.exports = function upload(filename, stream, size) {
+module.exports = function upload({ filename, stream, size }) {
   return new Promise((resolve, reject) => {
     const opt = {
       token: config.accessToken,
@@ -14,18 +14,13 @@ module.exports = function upload(filename, stream, size) {
       .createDropboxUploadStream(opt)
       .on('done', res => {
         console.log(
-          `File was uploaded: \nname: ${res.name};\npath:${res.path_lower}`
+          `File was uploaded:\nname: ${res.name};\npath:${res.path_lower}`
         );
-        return resolve({
-          statusCode: 201,
-          statusMessage: 'OK',
-          data: { name: res.name }
-        });
       })
       .on('progress', r => {
         console.log(`progress ${Math.ceil(r / size * 1000) / 10}%`);
         return resolve({
-          statusCode: 200,
+          statusCode: 201,
           statusMessage: 'OK'
         });
       })
